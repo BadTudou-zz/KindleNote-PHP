@@ -88,6 +88,10 @@ div#note-txt
 	border: solid 1px;
 	border-color: #1186F7;	
 }
+div#note-list>ul
+{
+	list-style: none;
+}
 div#note-list>ul>li
 {
 	width: 100%;
@@ -113,3 +117,30 @@ div#note-list>ul>li
 	width: 258px;
 	height: 24px;
 	border: solid 1px;
+}
+div#note-txt-title
+{
+	/*w: h:180*/
+	width: 100%;
+	height: 80px;
+	font-size: 200%;
+	font-style: bold;
+	border: solid 1px;
+
+}
+
+div#note-txt-date
+{
+	width: 180px;
+	height: 30px;
+	color: #00C0E4;
+	border: solid 1px;
+}
+
+div#note-txt-note
+{
+	width: 100%;
+	height: 100%;
+	border: solid 1px;
+	border-color: orange;
+}

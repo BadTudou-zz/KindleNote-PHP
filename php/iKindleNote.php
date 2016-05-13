@@ -10,11 +10,15 @@
 */
 	define('SPITMARK', "==========");
 	header("Content-type: text/html; charset=utf-8");
+
+	//打开笔记文件
 	$fnote = fopen('../note/input/My Clippings.txt', 'r+');
 	if ($fnote == false)
 	{
 		echo 'open file error';
 	}
+
+	//读取所有笔记
 	$arNote = array();
 	$line = fgets($fnote);
 	while ($line  !== false)
@@ -28,7 +32,7 @@
 			if (mb_substr($line,0,10) === SPITMARK)
 			{
 				$note['title'] = $note_title;
-				$note['data'] = $note_data;
+				$note['date'] = $note_data;
 				$note['note'] = $note_txt;
 				array_push($arNote, $note);
 				break;
@@ -39,6 +43,8 @@
 			}
 		}
 	}
+
+	//整理合并笔记
 	$title = array();
 	foreach ($arNote as $key=> $value) 
 	{
@@ -46,25 +52,44 @@
 	}
 	array_multisort($title, SORT_STRING, $arNote, SORT_ASC);
 	$currentTitle = $arNote[0]['title'];
-	echo '<h2>'.$currentTitle.'</h2><br/>';
+	$aKindleNote = array();
+	$aKindle = array();
+	$i =0;
+	$aKindle['title'] = $currentTitle;
+	strtok($arNote[0]['date'], '|');
+	$aKindle['date'] = strtok('|');
+	$aKindle['note'] ='';
+	$aKindleNote[$i]= $aKindle;
+
 	foreach ($arNote as $key=> $value) 
 	{
 		if ($value['title'] != $currentTitle)
 		{
-			echo '<h2>'.$value['title'].'</h2><br/>';			
+			$i++;
+			strtok($value['date'], '|');
+			$aKindle['date'] = strtok('|');
+			$aKindle['title'] = $value['title'];
+			$aKindle['note'] = $value['note'];
+			$aKindleNote[$i] = $aKindle;
 			$currentTitle = $value['title'];
-		}
-		$s  = strtok($value['data'], '|');
-		//echo strtok('|').'<br/>';
-		if (strrpos($value['data'], '-') != 0)
-		{
-			echo '<li><b>'.$value['note'].'</b></li><br/>';
+			
 		}
 		else
 		{
-			echo '<li>'.$value['note'].'</li><br/><br/>';
+			if (strrpos($value['date'], '-') != 0)
+			{
+				$aKindleNote[$i]['note'] .= '笔记'.$value['note'].'<br/>';
+			}
+			else
+			{
+				$aKindleNote[$i]['note'] .= $value['note'].'<br/>';
 
+			}
 		}
 		
+		
+		
+		
 	}
+	print_r($aKindleNote);
 ?>
