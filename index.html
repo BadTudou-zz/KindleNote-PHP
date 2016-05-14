@@ -1,42 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iKindleNote</title>
+	<title>KindleNote</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/index-style.css">
+	<link rel="stylesheet" type="text/css" href="css/artDialog/ui-dialog.css">
+	<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="js/artDialog/dialog-min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
 </head>
 <body>
 	<div id='view'>
 		<div id='head'>
 			<div id='head-logo'>
-				<a href="#"><img src="images/logo.png"/>www.WikiNote.com</a>
+				<a href="www.BadTudou.com"><img src="images/logo.png"/>www.BadTudou.com</a>
+			</div>
+			<div id="upload_area">
+				<div id='text_notecount'></div>
+				<div id='text_upload'>未上传笔记文件</div>
+				<a id='button_upload' href="#">上传笔记</a>
+				<form id="form_uploadfile" action="../php/upload.php" method="POST" enctype="multipart/form-data">
+					<input id="fileupload" type="file" name="files" hidden/>
+					<input id='button_submit' type="submit" value="开始上传" hidden/>
+				</form>
 			</div>
 		</div>
+		
 		<div id='note'>
 			<div id='note-list'>
-				<ul>
-					<li>
-						<div class='note-list-img'></div>
-						<div class='note-list-title'>	
-						</div>
-						<div class='note-list-author'>
-						</div>
-					</li>
-					<li>
-						<div class='note-list-img'></div>
-						<div class='note-list-title'>
-						</div>
-						<div class='note-list-author'>
-						</div>
-					</li>
+				<ul id='notelist'>
 				</ul>
 			</div>
 			<div id='note-txt'>
-				<div id='note-txt-title'>这是标题</div>
-				<div id='note-txt-date'>2016年5月13日13:33:16</div>
-				<div id='note-txt-note'>没有</div>
+				<div id='note-txt-title'>欢迎使用KindleNote</div>
+				<div id='note-txt-date'>2016年5月14日14:41:29</div>
+				<div id='note-txt-note'>
+					<h2>简介</h2>
+					<b>KindleNote</b>可以使你<b>Kindle</b>阅读器中的<b>笔记</b>变得<b>更易阅读</b>。<br/>
+					通过对Kindle的笔记文件进行<b>整理</b>、<b>分析</b>，使得<b>笔记片段</b>合并为<b>完整笔记</b>。
+					<h3>现在的笔记</h3>
+					<img src="images/guide/htmlnote.png"><br/>
+					<h3>原来的笔记</h3>
+					<img src="images/guide/textnote.png">
+					<h3>帮助</h3>
+					免费开源<a href="https://github.com/BadTudou/KindleNote"><b>KindleNote</b></a>。Bug提交或建议请联系我。<br/>
+					<b>QQ   :</b><a href="tencent://message/?uin=1217473249&Site=163164.cn&Menu=yes" title="QQ: 1217473249">1217473249</a><br/>
+					<b>Email:</b><a href="mailto:badtudou@qq.com" title="Email: BadTudou@qq.com">badtudou@qq.com</a><br/>
+					<b>GitHub:</b><a href="https://github.com/BadTudou/iKindleNote">https://github.com/BadTudou/iKindleNote</a><br/>
+					<b>[</b>BadTudou同学拥有KindleNote的所有版权<b>]</b>
+					
+				</div>
 			</div>
 		</div>	
+
+				<!-- 页脚 -->
+		<div id='footer'>
+			<!-- 页脚-联系方式 -->
+			<div id='footer-contact'>
+				<ol>
+					<li><a href="#"><img src="images/contact/twitter-logo.png"></a></li>
+					<li><a href="#"><img src="images/contact/googlePlus-logo.png"></a></li>
+					<li><a href="#"><img src="images/contact/facebook-logo.png"></a></li>
+					<li><a href="#"><img src="images/contact/wechat-logo.png"></a></li>
+					<li><a href="http://weibo.com/5435797166/profile?rightmod=1&wvr=6&mod=personinfo" title="badtudou"><img src="images/contact/weibo-logo.png"></a></li>
+					<li><a href="mailto:badtudou@qq.com" title="Email: BadTudou@qq.com"><img src="images/contact/email-logo.png"></a></li>
+					<li><a href="tencent://message/?uin=1217473249&Site=163164.cn&Menu=yes" title="QQ: 1217473249""><img src="images/contact/qq-logo.png"></a></li>
+				</ol>
+			</div>
+			<!-- 页脚-版权 -->
+			<div id='footer-curtain'>
+				<div id='footer-curtain-copyright'>
+					Copyright 2016 BadTudou. All rights reserved.				
+				</div>
+			</div>
+		</div>
 	</div>
 	
 </body>
