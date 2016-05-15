@@ -1,11 +1,12 @@
 var jsonnote;
+var noteid;
 
 function GetNoteList(title)
 {
 	var d = dialog(
 	{
     	title: '处理中',
-    	content: '正在获取笔记列表',
+    	content: '正在获取笔记列表，请稍候',
     	cancel: false,
     	ok: function () {}
 	});
@@ -33,7 +34,29 @@ function GetNoteList(title)
 	})
 	.fail(function(json) 
 	{
+		d.close().remove();
 		console.log("error"+json);
+		var j = dialog(
+		{
+    		title: '笔记解析失败',
+    		content: '<b>错误原因</b><br/>1.不是Kindle笔记文件<br/>2.笔记内容格式有误<br/><br/>'
+    		+'<b>你的联系方式</b><br/><input id="input_qq" value=""autofocus placeholder="留下你的QQ，我会跟你联系"/><br/><br/>'
+    		+'<b>关于</b><br/><b>QQ   :</b><a href="tencent://message/?uin=1217473249&Site=163164.cn&Menu=yes" title="QQ: 1217473249">1217473249</a><br/>'
+    		+'<b>Email:</b><a href="mailto:badtudou@qq.com" title="Email: BadTudou@qq.com">badtudou@qq.com</a><br/>',
+    		okValue: '提交',
+    		cancelValue: '取消',
+    		ok: function ()
+    		{
+       			var qq = $('#input_qq').val();
+       			if ($.trim(qq) == '')
+       			{
+       				return false;
+       			}
+	      		ReportError(Number(noteid)+1, qq);
+       			return true;
+    		}
+    	});
+		j.show();
 	})
 	.always(function() 
 	{
@@ -68,7 +91,8 @@ function GetNoteCount()
 	{
 		if(json.stateCode == 0)
 		{
-			$('#text_notecount').html('处理笔记：'+json.msgText+'');
+			noteid = json.msgText;
+			$('#text_notecount_count').text(json.msgText);
 			console.log(json.msgText);
 		}
 		
@@ -90,6 +114,31 @@ function GetNoteTxt(notename)
 			$('#note-txt-note').html(el['note']);
 		}
 	});
+}
+
+function ReportError(noteid, qq) 
+{
+	$.ajax({
+		url: 'php/ikindlenote.php',
+		type: 'POST',
+		dataType: 'JSON',
+		data: {action: 'reporterror', noteid:noteid, qq:qq},
+	})
+	.done(function(json) 
+	{
+		if (json.stateCode == 0)
+		{
+			ShowDialog('反馈成功',json.msgText);
+		}
+		
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
 }
 
 $(document).ready(function() 
@@ -114,12 +163,21 @@ $(document).ready(function()
 		gXhr.open("post", "php/upload.php", true);
 		gXhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		gXhr.send(gFd);
+		var d = dialog(
+		{
+    		title: '处理中',
+    		content: '正在上传笔记,请稍候',
+    		cancel: false,
+    		ok: function () {}
+		});
+		d.show();
 		gXhr.onreadystatechange = function(state)
 		{
 			var str = gXhr.responseText;
 			if (gXhr.readyState == 4 && str.substr(0,2) == 'ok')
 			{	
-				GetNoteCount();
+				d.close().remove();
+				$('#text_notecount_count').text(str.substr(2));
 				GetNoteList(str.substr(2));
 			}
 		}

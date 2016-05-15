@@ -20,46 +20,48 @@
 		$line = fgets($fnote);
 		while ($line  !== false)
 		{
-		$note = array();
-		for ($j=0; $j < 2; $j++) 
-		{ 
-			$tmp = trim(fgets($fnote));
-			if ($tmp == false)
-			{
-				break;
-			}
-			if (strlen($tmp) == 0)
-			{ 
-				$j--;
-				continue;
-			}
-			if ($j == 0)
-			{
-				$note_title = $tmp;
-			}
-			if ($j == 1)
-			{
-				$note_data= $tmp;
-			}
-		}
+
+			$note = array();
+			
 		/*$note_title = fgets($fnote);
 		$note_data = fgets($fnote);*/
-		$note_txt = '';
-		while ( ($line = fgets($fnote)) !== false)
-		{
-			if (mb_substr($line,0,10) === SPITMARK)
+			$note_txt = '';
+			while ( ($line = fgets($fnote)) !== false)
 			{
-				$note['title'] = $note_title;
-				$note['date'] = $note_data;
-				$note['note'] = $note_txt;
-				array_push($arNote, $note);
-				break;
+				if (mb_substr($line,0,10) === SPITMARK)
+				{
+					for ($j=0; $j < 2; $j++) 
+					{ 
+						$tmp = trim(fgets($fnote));
+						if ($tmp == false)
+						{
+							break;
+						}
+						if (strlen($tmp) == 0)
+						{ 
+							$j--;
+							continue;
+						}
+						if ($j == 0)
+						{
+							$note_title = $tmp;
+						}
+						if ($j == 1)
+						{
+							$note_data= $tmp;
+						}
+					}
+					$note['title'] = $note_title;
+					$note['date'] = $note_data;
+					$note['note'] = $note_txt;
+					array_push($arNote, $note);
+					break;
+				}
+				else if ($line != '')
+				{
+					$note_txt .= $line;
+				}
 			}
-			else if ($line != '')
-			{
-				$note_txt .= $line;
-			}
-		}
 	}
 
 	//整理合并笔记
@@ -152,13 +154,24 @@ function GetNoteCount()
 	return $conf['note'];
 }
 
+function ReportError(string $noteid, string $qq)
+{
+	$er = array();
+	$er['id'] = $noteid;
+	$er['qq'] = $qq;
+	file_put_contents('../note/error_log.json',json_encode($er).",\n", FILE_APPEND);
+}
+
 if (isset($_POST['action']))	
 {
 	$action = $_POST['action'];
 	switch ($action) 
 	{
-		case 'createnote':
-			CreateNote();
+		case 'reporterror':
+			$noteid = $_POST['noteid'];
+			$qq = $_POST['qq'];
+			ReportError($noteid, $qq);
+			SendRespond(0, '你的反馈已经提交，我会尽快与你联系');
 			# code...
 			break;
 		case 'getnotelist':
@@ -166,19 +179,9 @@ if (isset($_POST['action']))
 			CreateNote($ti);
 			$arNote = array();
 			$arNote = json_decode(file_get_contents('../note/output/'.$ti.'.json'), true);
-			$arTitle = array();
-			$arTitle2 = array();
-			/*foreach ($arNote as $key => $value) 
-			{
-				$arTitle['title'] = $value['title'];
-				$arTitle['author'] = $value['author'];	
-				$arTitle2[$key] = $arTitle;
-			}*/
-			$arTitle2['title'] = 'test';
-			$arTitle2['author'] ='author';
 			echo json_encode($arNote);
-			
 			break;
+
 		case 'getnotecount':
 			SendRespond(0,GetNoteCount());
 			break;
