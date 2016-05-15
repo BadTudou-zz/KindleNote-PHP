@@ -11,6 +11,7 @@ function GetNoteList(title)
     	ok: function () {}
 	});
 	d.show();
+
 	$.ajax({
 		url: 'php/ikindlenote.php',
 		type: 'POST',
@@ -20,16 +21,26 @@ function GetNoteList(title)
 	.done(function(json) 
 	{
 		d.close().remove();
+		json.sort();
 		$('#notelist').empty();
 		jsonnote = json;
 		GetNoteTxt(json[0]['title']);
 		$.each(json, function(index, el) 
 		{
-			$('#notelist').append("<li><div class='note-list-img'></div><div class='note-list-title'><a href='#'><b>"
-				+el['title']
+			var s1 = '<li id="hidenote-title'+index;
+			var s2 = '<li id="hidenote-date'+index;
+			var s3 = '<li id="hidenote-author'+index;
+			var s4 = '<li id="hidenote-note'+index;
+			var s0 = 'value="'+index+'"';
+			$('#hidenote-title').append(s1+'">'+el['title']+'</li>');
+			$('#hidenote-date').append(s2+'">'+el['date']+'</li>');
+			$('#hidenote-author').append(s3+'">'+el['author']+'</li>');
+			$('#hidenote-note').append(s4+'">'+el['note']+'</li>');
+			$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#"'+s0 +'><b>'
+				+el["title"]
 				+"</b></a></div><div class='note-list-author'>"
 				+el['author']
-				+"</div></li>")
+				+"</div></li>");
 		});
 	})
 	.fail(function(json) 
@@ -79,6 +90,31 @@ function ShowDialog(title, content)
 	return d;
 }
 
+function IsFileMode()
+{
+	if (location.href.substr(0,4) == 'file')
+	{
+		return true;
+	}
+	return false;
+}
+
+function SetNoteList() 
+{
+	var notecount= $('#hidenote-title li').length;
+	$('#notelist').empty();
+     for (var i = 0; i < notecount; i++) 
+     {
+     	var title = $('#hidenote-title'+i).text();
+     	var author =$('#hidenote-author'+i).text();
+     	var s0 = 'value="'+i+'"';
+     	$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#"'+s0 +'><b>'
+				+title
+				+"</b></a></div><div class='note-list-author'>"
+				+author
+				+"</div></li>");
+     }
+}
 function GetNoteCount() 
 {
 	$.ajax({
@@ -116,6 +152,21 @@ function GetNoteTxt(notename)
 	});
 }
 
+function GetNoteTxtOff(index)
+{
+	var sTitle = '#hidenote-title'+index;
+	var sDate = '#hidenote-date'+index;
+	var sAuthor = '#hidenote-author'+index;
+	var sNote = '#hidenote-note'+index;
+	var title = $(sTitle).text();
+	var date = $(sDate).text();
+	var author = $(sAuthor).text();
+	var note = $(sNote).text();
+	$('#note-txt-title').html(title);
+	$('#note-txt-date').html(date);
+	$('#note-txt-note').html(note);
+}
+
 function ReportError(noteid, qq) 
 {
 	$.ajax({
@@ -143,16 +194,34 @@ function ReportError(noteid, qq)
 
 $(document).ready(function() 
 {
-	GetNoteCount();
+	if (IsFileMode())
+	{
+		SetNoteList();
+	}
+	else
+	{
+		GetNoteCount();
+	}
 	$('#notelist').on('click', 'a', function(event) {
 		//event.preventDefault();
-		GetNoteTxt($(this).text());
+		if(IsFileMode())
+		{
+			console.log('filenode');
+			console.log($(this).attr('value'));
+			GetNoteTxtOff($(this).attr('value'));
+		}
+		else
+		{
+		}
+		GetNoteTxt($(this).text());	
+		
 	});	
 
 	$('#button_upload').click(function(event) 
 	{
 		$('#fileupload').click();
 	});
+
 
 	$('#form_uploadfile').submit(function(event) 
 	{

@@ -5,9 +5,21 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/index-style.css">
 	<link rel="stylesheet" type="text/css" href="css/artDialog/ui-dialog.css">
+	<link rel="stylesheet" type="text/css" href="css/listnav.css">
 	<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
 	<script type="text/javascript" src="js/artDialog/dialog-min.js"></script>
+	<script type="text/javascript" src="js/jquery.charfirst.pinyin.js"></script>
+	<script type="text/javascript" src="js/jquery.listnav.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+<!-- 	<script type="text/javascript">
+        $(function() {
+            $('#notelist').listnav({
+                includeOther: true,
+                noMatchText: '没有内容',
+                prefixes: ['the', 'a']
+            });
+        })
+    </script> -->
 </head>
 <body>
 	<div id='view'>
@@ -27,33 +39,56 @@
 		</div>
 		
 		<div id='note'>
+			<div id='hidenote' hidden>
+				<ul id='hidenote-title'></ul>
+				<ul id='hidenote-author'></ul>
+				<ul id='hidenote-date'></ul>
+				<ul id='hidenote-note'></ul>
+			</div>
 			<div id='note-list'>
 				<ul id='notelist'>
+					<!-- <a href="http://kindlefere.com/post/110.html">Clippings Fere</a> -->
+					<div id='guide-tip'>
+						<img src="images/guide/mouse.png">
+						<label>上传笔记成功后</label>
+						<label>鼠标右键选择<b>'另存为'</b></label>
+						<label>保存文件类型<b>'网页、全部'</b></label>
+						<label><b>KindleNote让你可以离线浏览你的笔记</b></label>
+					</div>
 				</ul>
 			</div>
 			<div id='note-txt'>
 				<div id='note-txt-title'>欢迎使用KindleNote</div>
 				<div id='note-txt-date'>2016年5月14日14:41:29</div>
 				<div id='note-txt-note'>
-					<h2>简介</h2>
-					<b>KindleNote</b>可以使你<b>Kindle</b>阅读器中的<b>笔记</b>变得<b>更易阅读</b>。<br/>
-					通过对Kindle的笔记文件进行<b>整理</b>、<b>分析</b>，使得<b>笔记片段</b>合并为<b>完整笔记</b>。
-					<h3>使用方法</h3>
-					1.连接Kindle至电脑，进入USB模式<br/>
-					2.进入Kindle的磁盘，上传 <b>Kindle盘符:\documents\My Clippings.txt</b>文件<br/>
-					3.等待程序对笔记文件进行处理，完成
-					<h3>现在的笔记</h3>
-					<img src="images/guide/htmlnote.png"><br/>
-					<h3>原来的笔记</h3>
-					<img src="images/guide/textnote.png">
-					<h3>隐私</h3>
-					KindleNote处于测试阶段，会收集您的笔记以便对错误进行分析。若您不想您的笔记数据被保存，请跟我联系。
-					<h3>帮助</h3>
-					免费开源<a href="https://github.com/BadTudou/KindleNote"><b>KindleNote</b></a>。Bug提交或建议请联系我。<br/>
-					<b>QQ   :</b><a href="tencent://message/?uin=1217473249&Site=163164.cn&Menu=yes" title="QQ: 1217473249">1217473249</a><br/>
-					<b>Email:</b><a href="mailto:badtudou@qq.com" title="Email: BadTudou@qq.com">badtudou@qq.com</a><br/>
-					<b>GitHub:</b><a href="https://github.com/BadTudou/iKindleNote">https://github.com/BadTudou/KindleNote</a><br/>
-					<b>[</b>BadTudou同学拥有KindleNote的所有版权<b>]</b>
+					<div id='guide-info'>
+						<h2>简介</h2>
+						<b>KindleNote</b>可以使你<b>Kindle</b>阅读器中的<b>笔记</b>变得<b>更易阅读</b>	。<br/>
+						通过对Kindle的笔记文件进行<b>整理</b>、<b>分析</b>，使得<b>笔记片段</b>合并为<<b>	</b>>完整笔记</b>。
+						<h3>使用方法</h3>
+						1.连接Kindle至电脑，进入USB模式<br/>
+						2.进入Kindle的磁盘，上传 <b>Kindle盘符:\documents\My Clippings.txt</b>文件<br/>
+						3.等待程序对笔记文件进行处理，完成
+						<h3>离线笔记</h3>
+						<img src="images/guide/mouse.png">
+						<label><b>单击</b>鼠标<b>右键</b></label>
+						<img src="images/guide/saveas.png">
+						<label>选择<b>'另存为'</b></label>
+						<img src="images/guide/allweb.png">
+						<label>保存为<b>'网页、全部'</b></label>
+						<h3>现在的笔记</h3>
+						<img src="images/guide/htmlnote.png"><br/>
+						<h3>原来的笔记</h3>
+						<img src="images/guide/textnote.png">
+						<h3>隐私</h3>
+						KindleNote处于测试阶段，会收集您的笔记以便对错误进行分析。若您不想您的笔记数据	被保存，请跟我联系。
+						<h3>帮助</h3>
+						免费开源<a href="https://github.com/BadTudou/KindleNote"><b>KindleNote</b></a>	。Bug提交或建议请联系我。<br/>
+						<b>QQ   :</b><a href="tencent://message/?uin=1217473249&Site=163164.cn&Menu=<yes>	</yes>" title="QQ: 1217473249">1217473249</a><br/>
+						<b>Email:</b><a href="mailto:badtudou@qq.com" title="Email: BadTudou@qq.com">	badtudou@qq.com</a><br/>
+						<b>GitHub:</b><a href="https://github.com/BadTudou/iKindleNote">https://	github.com/BadTudou/KindleNote</a><br/>
+						<b>[</b>BadTudou同学拥有KindleNote的所有版权<b>]</b>
+					</div>
 					
 				</div>
 			</div>

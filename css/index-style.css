@@ -157,6 +157,15 @@ div#note-list>ul>li
 	height: 48px;
 	border-bottom: solid 1px;
 }
+.note-list-title>a
+{
+	color: #4486F7;
+}
+
+.note-list-title>a:hover
+{
+	color: #FF7335;
+}
 
 .note-list-author
 {
@@ -179,6 +188,37 @@ div#note-txt-title
 
 }
 
+div#guide-info img
+{
+	display: block;
+	margin:auto;
+	margin-top: 30px;
+}
+div#guide-tip img
+{
+	display: block;
+	margin:auto;
+	margin-bottom: 30px;
+
+}
+div#guide-tip label
+{
+	color: #4486F7;
+	display: block;
+	margin:auto;
+	margin-bottom: 20px;
+	text-align: center;
+}
+div#guide-tip label b
+{
+	color: #FF7335;
+}
+div#guide-info label
+{
+	display: block;
+	margin:auto;
+	text-align: center;
+}
 div#note-txt-date
 {
 	width: 100%;

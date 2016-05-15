@@ -70,6 +70,7 @@
 	{
 		$title[$key] = $value['title'];
 	}
+	natsort($title);
 	array_multisort($title, SORT_STRING, $arNote, SORT_ASC);
 	$currentTitle = $arNote[0]['title'];
 	$aKindleNote = array();
@@ -130,9 +131,13 @@
 	fclose($fjson);
 	file_put_contents('../note/output/'.$notetitle.'.json','[');
 	$i =0;
+/*	foreach ($aKindleNote as $key => $value) 
+	{
+		$aKindleNote[$key] = iconv('UTF-8', 'GBK', $value);
+	}
+	asort($aKindleNote);*/
 	foreach ($aKindleNote as $key => $value) 
 	{
-
 		if (json_encode($value) != '')
 		{
 			file_put_contents('../note/output/'.$notetitle.'.json', json_encode($value), FILE_APPEND);
@@ -177,9 +182,7 @@ if (isset($_POST['action']))
 		case 'getnotelist':
 			$ti = $_POST['title'];
 			CreateNote($ti);
-			$arNote = array();
-			$arNote = json_decode(file_get_contents('../note/output/'.$ti.'.json'), true);
-			echo json_encode($arNote);
+			echo file_get_contents('../note/output/'.$ti.'.json');			
 			break;
 
 		case 'getnotecount':
