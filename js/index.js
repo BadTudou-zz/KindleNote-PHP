@@ -24,7 +24,11 @@ function GetNoteList(title)
 		json.sort();
 		$('#notelist').empty();
 		jsonnote = json;
-		GetNoteTxt(json[0]['title']);
+		$('#guide-info').html($('#guide-info-offline').html());
+		$('#note-txt-title').html('离线使用KindleNote');
+		//$('#note-txt-date').html('');
+		
+		//GetNoteTxt(json[0]['title']);
 		$.each(json, function(index, el) 
 		{
 			var s1 = '<li id="hidenote-title'+index;
@@ -42,6 +46,8 @@ function GetNoteList(title)
 				+el['author']
 				+"</div></li>");
 		});
+		$('#note-list-count').show();
+		$('#note-list-count-notecount').text($('#hidenote-title li').length);
 	})
 	.fail(function(json) 
 	{
@@ -99,22 +105,6 @@ function IsFileMode()
 	return false;
 }
 
-function SetNoteList() 
-{
-	var notecount= $('#hidenote-title li').length;
-	$('#notelist').empty();
-     for (var i = 0; i < notecount; i++) 
-     {
-     	var title = $('#hidenote-title'+i).text();
-     	var author =$('#hidenote-author'+i).text();
-     	var s0 = 'value="'+i+'"';
-     	$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#"'+s0 +'><b>'
-				+title
-				+"</b></a></div><div class='note-list-author'>"
-				+author
-				+"</div></li>");
-     }
-}
 function GetNoteCount() 
 {
 	$.ajax({
@@ -194,11 +184,7 @@ function ReportError(noteid, qq)
 
 $(document).ready(function() 
 {
-	if (IsFileMode())
-	{
-		SetNoteList();
-	}
-	else
+	if (!IsFileMode())
 	{
 		GetNoteCount();
 	}
@@ -209,6 +195,7 @@ $(document).ready(function()
 			console.log('filenode');
 			console.log($(this).attr('value'));
 			GetNoteTxtOff($(this).attr('value'));
+			return false;
 		}
 		else
 		{
