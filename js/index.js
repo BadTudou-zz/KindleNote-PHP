@@ -35,15 +35,22 @@ function GetNoteList(title)
 			var s2 = '<li id="hidenote-date'+index;
 			var s3 = '<li id="hidenote-author'+index;
 			var s4 = '<li id="hidenote-note'+index;
-			var s0 = 'value="'+index+'"';
+			var title = el['title'];
+			if (title.length > 33)
+			{
+				console.log(title);
+				title = title.substr(0, 31);
+				title += '...';
+			}
+			var s0 = 'value="'+index+'" title="'+el["title"]+'"';
 			$('#hidenote-title').append(s1+'">'+el['title']+'</li>');
 			$('#hidenote-date').append(s2+'">'+el['date']+'</li>');
 			$('#hidenote-author').append(s3+'">'+el['author']+'</li>');
 			$('#hidenote-note').append(s4+'">'+el['note']+'</li>');
-			$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#"'+s0 +'><b>'
-				+el["title"]
+			$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#" '+s0 +'><b>'
+				+title
 				+"</b></a></div><div class='note-list-author'>"
-				+el['author']
+				+el['author'].substr(0,56)
 				+"</div></li>");
 		});
 		$('#note-list-count').show();
@@ -135,7 +142,7 @@ function GetNoteTxt(notename)
 	{
 		if (el['title'] == notename)
 		{
-			$('#note-txt-title').html(el['title']);
+			$('#note-txt-title').html(el['title'].substr(0,27));
 			$('#note-txt-date').html(el['date']);
 			$('#note-txt-note').html(el['note']);
 		}
@@ -148,11 +155,12 @@ function GetNoteTxtOff(index)
 	var sDate = '#hidenote-date'+index;
 	var sAuthor = '#hidenote-author'+index;
 	var sNote = '#hidenote-note'+index;
-	var title = $(sTitle).text();
+	//var title = $(sTitle).children('a').attr('title');
+	//console.log(title);
+	//.substr(0,27);
 	var date = $(sDate).text();
 	var author = $(sAuthor).text();
 	var note = $(sNote).text();
-	$('#note-txt-title').html(title);
 	$('#note-txt-date').html(date);
 	$('#note-txt-note').html(note);
 }
@@ -189,18 +197,12 @@ $(document).ready(function()
 		GetNoteCount();
 	}
 	$('#notelist').on('click', 'a', function(event) {
-		//event.preventDefault();
-		if(IsFileMode())
-		{
-			console.log('filenode');
-			console.log($(this).attr('value'));
-			GetNoteTxtOff($(this).attr('value'));
-			return false;
-		}
-		else
-		{
-		}
-		GetNoteTxt($(this).text());	
+		var s ='#hidenote-title'+$(this).attr('value');
+		var title = $(s).text();
+		$(document).attr('title', $(this).text());
+		$('#note-txt-title').html('<a href="#" title="'+title+'">'+title.substr(0,26)+'</a>');
+		GetNoteTxtOff($(this).attr('value'));
+		return false;
 		
 	});	
 
