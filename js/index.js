@@ -11,7 +11,6 @@ function GetNoteList(title)
     	ok: function () {}
 	});
 	d.show();
-
 	$.ajax({
 		url: 'php/ikindlenote.php',
 		type: 'POST',
@@ -21,38 +20,72 @@ function GetNoteList(title)
 	.done(function(json) 
 	{
 		d.close().remove();
-		json.sort();
+		json.sort(asc_sort);
+		$('#apahabetlist').empty();
 		$('#notelist').empty();
-		jsonnote = json;
 		$('#guide-info').html($('#guide-info-offline').html());
 		$('#note-txt-title').html('离线使用KindleNote');
 		//$('#note-txt-date').html('');
 		
-		//GetNoteTxt(json[0]['title']);
+		var arapahabet= new Array();
 		$.each(json, function(index, el) 
 		{
-			var s1 = '<li id="hidenote-title'+index;
-			var s2 = '<li id="hidenote-date'+index;
-			var s3 = '<li id="hidenote-author'+index;
-			var s4 = '<li id="hidenote-note'+index;
+			var apahabet = (makePy(el['title'].substr(0,1))+'').substr(0,1);
+			var stitle = '<li id="hidenote-title'+index;
+			
+			var sdate = '<li id="hidenote-date'+index;
+			var sauthor = '<li id="hidenote-author'+index;
+			var snote = '<li id="hidenote-note'+index;
 			var title = el['title'];
+			var author = '无作者';
+			var iposStart = el['title'].lastIndexOf('(');
+			console.log('start'+iposStart);
+			if (iposStart != -1)
+			{
+				var iposEnd = el['title'].lastIndexOf(')');
+				console.log('end'+iposEnd);
+				if (iposEnd != -1)
+				{
+					author = el['title'].substr(iposStart+1, iposEnd-iposStart-1);
+					title = title.substr(0, iposStart);
+				}
+			}
 			if (title.length > 33)
 			{
-				console.log(title);
 				title = title.substr(0, 31);
 				title += '...';
 			}
+			arapahabet.push(apahabet+'');
 			var s0 = 'value="'+index+'" title="'+el["title"]+'"';
-			$('#hidenote-title').append(s1+'">'+el['title']+'</li>');
-			$('#hidenote-date').append(s2+'">'+el['date']+'</li>');
-			$('#hidenote-author').append(s3+'">'+el['author']+'</li>');
-			$('#hidenote-note').append(s4+'">'+el['note']+'</li>');
-			$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#" '+s0 +'><b>'
+			$('#hidenote-title').append(stitle+'">'+el['title']+'</li>');
+			$('#hidenote-date').append(sdate+'">'+el['date']+'</li>');
+			$('#hidenote-author').append(sauthor+'">'+el['author']+'</li>');
+			$('#hidenote-note').append(snote+'">'+el['note']+'</li>');
+			//$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#" '+s0 +'><b>'
+			$('#notelist').append('<li><div class="note-list-title"><a href="#" '+s0 +'value="'+apahabet+'" id="note-list-title'+apahabet+'"><b>'
 				+title
 				+"</b></a></div><div class='note-list-author'>"
-				+el['author'].substr(0,56)
+				+author.substr(0,56)
 				+"</div></li>");
+				//+"</li>");
 		});
+		
+		/*$.each($.unique(arapahabet),function(index, el) 
+		{
+			$('#apahabetlist').append('<li><a href="#" title="'+el+'">'+el+'</a></li>');
+		
+		});*/
+		for (var i = 0 ; i < 26; i++) 
+		{
+			if($.inArray(String.fromCharCode(65+i), arapahabet) != -1)
+			{
+				$('#apahabetlist').append('<li><a href="#" title="跳转到'+String.fromCharCode(65+i)+'开头的笔记">'+String.fromCharCode(65+i)+'</a></li>');
+			}
+			else
+			{
+				$('#apahabetlist').append('<li><a class="disabled" href="#" title="跳转到'+String.fromCharCode(65+i)+'开头的笔记">'+String.fromCharCode(65+i)+'</a></li>');	
+			}
+		}
 		$('#note-list-count').show();
 		$('#note-list-count-notecount').text($('#hidenote-title li').length);
 	})
@@ -90,6 +123,12 @@ function GetNoteList(title)
 	
 }
 
+function asc_sort(a, b) 
+{
+	var a1 = makePy(b.title.substr(0,1));
+	var b1 = makePy(a.title.substr(0,1));
+    return a1 < b1 ? 1 : -1;
+}
 function ShowDialog(title, content)
 {
 	var d = dialog(
@@ -126,7 +165,6 @@ function GetNoteCount()
 		{
 			noteid = json.msgText;
 			$('#text_notecount_count').text(json.msgText);
-			console.log(json.msgText);
 		}
 		
 	})
@@ -136,20 +174,8 @@ function GetNoteCount()
 	})
 	
 }
-function GetNoteTxt(notename)
-{
-	$.each(jsonnote, function(index, el)
-	{
-		if (el['title'] == notename)
-		{
-			$('#note-txt-title').html(el['title'].substr(0,27));
-			$('#note-txt-date').html(el['date']);
-			$('#note-txt-note').html(el['note']);
-		}
-	});
-}
 
-function GetNoteTxtOff(index)
+function GetNoteTxt(index)
 {
 	var sTitle = '#hidenote-title'+index;
 	var sDate = '#hidenote-date'+index;
@@ -160,11 +186,20 @@ function GetNoteTxtOff(index)
 	//.substr(0,27);
 	var date = $(sDate).text();
 	var author = $(sAuthor).text();
-	var note = $(sNote).text();
+	var note = $(sNote).html();
 	$('#note-txt-date').html(date);
 	$('#note-txt-note').html(note);
 }
 
+function SortList()
+{
+	$('#notelist').listnav(
+	{
+        includeOther: true,
+        includeNums: true, 
+        noMatchText: ''
+    });
+}
 function ReportError(noteid, qq) 
 {
 	$.ajax({
@@ -201,10 +236,19 @@ $(document).ready(function()
 		var title = $(s).text();
 		$(document).attr('title', $(this).text());
 		$('#note-txt-title').html('<a href="#" title="'+title+'">'+title.substr(0,26)+'</a>');
-		GetNoteTxtOff($(this).attr('value'));
+		GetNoteTxt($(this).attr('value'));
 		return false;
 		
 	});	
+	$('#note-aphabet').on('click', 'a', function(event) 
+	{
+		var s ='note-list-title'+$(this).text();
+		$('html, body').animate({scrollTop:0}, 'fast');
+		$(this).attr('href','#'+s);//console.log(s);
+		$('#'+s).click();
+		return true;
+	});
+	
 
 	$('#button_upload').click(function(event) 
 	{
@@ -237,6 +281,7 @@ $(document).ready(function()
 				d.close().remove();
 				$('#text_notecount_count').text(str.substr(2));
 				GetNoteList(str.substr(2));
+				SortList();
 			}
 		}
    		return false; //阻止表单默认提交
@@ -248,7 +293,6 @@ $(document).ready(function()
 		var filename = afile.files[0].name;
 		var filesize = (afile.files[0].size/1024).toFixed(2);
 		$('#text_upload').text(filename);
-		console.log(filename);
 		if (filename.substr(-4) == '.txt')
 		{
 			$('#form_uploadfile').submit();

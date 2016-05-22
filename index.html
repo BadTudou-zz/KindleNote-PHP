@@ -5,21 +5,11 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/index-style.css">
 	<link rel="stylesheet" type="text/css" href="css/artDialog/ui-dialog.css">
-	<link rel="stylesheet" type="text/css" href="css/listnav.css">
-	<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+	<!-- <script type="text/javascript" src="js/jquery-2.2.1.min.js"></script> -->
+	<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/artDialog/dialog-min.js"></script>
 	<script type="text/javascript" src="js/jquery.charfirst.pinyin.js"></script>
-	<script type="text/javascript" src="js/jquery.listnav.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
-<!-- 	<script type="text/javascript">
-        $(function() {
-            $('#notelist').listnav({
-                includeOther: true,
-                noMatchText: '没有内容',
-                prefixes: ['the', 'a']
-            });
-        })
-    </script> -->
 </head>
 <body>
 	<div id='view'>
@@ -47,6 +37,9 @@
 			</div>
 			<div id='note-list'>
 				<div id='note-list-count' hidden>共有笔记<span id='note-list-count-notecount'></span>个</div>
+				<div id='note-aphabet'>
+					<ul id='apahabetlist'></ul>
+				</div>
 				<ul id='notelist'>
 					<!-- <a href="http://kindlefere.com/post/110.html">Clippings Fere</a> -->
 					<div id='guide-tip'>

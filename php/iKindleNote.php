@@ -15,142 +15,71 @@
 	{
 		//打开笔记文件
 		$fnote = fopen('../note/input/'.$notetitle.'.txt', 'r+');
-		//读取所有笔记
-		$arNote = array();
-		$line = fgets($fnote);
-		while ($line  !== false)
+		//读取单个笔记内容
+		$artmpstring = array();
+		$tmpstring = array();
+		mb_internal_encoding("UTF-8");
+		while ( ($line = fgets($fnote)) !== false)
 		{
-
-			$note = array();
-			
-		/*$note_title = fgets($fnote);
-		$note_data = fgets($fnote);*/
-			$note_txt = '';
-			while ( ($line = fgets($fnote)) !== false)
+			if (mb_substr($line,0,10) !== SPITMARK)
 			{
-				if (mb_substr($line,0,10) === SPITMARK)
-				{
-					for ($j=0; $j < 2; $j++) 
-					{ 
-						$tmp = trim(fgets($fnote));
-						if ($tmp == false)
-						{
-							break;
-						}
-						if (strlen($tmp) == 0)
-						{ 
-							$j--;
-							continue;
-						}
-						if ($j == 0)
-						{
-							$note_title = $tmp;
-						}
-						if ($j == 1)
-						{
-							$note_data= $tmp;
-						}
-					}
-					$note['title'] = $note_title;
-					$note['date'] = $note_data;
-					$note['note'] = $note_txt;
-					array_push($arNote, $note);
-					break;
-				}
-				else if ($line != '')
-				{
-					$note_txt .= $line;
-				}
-			}
-	}
-
-	//整理合并笔记
-	$title = array();
-	foreach ($arNote as $key=> $value) 
-	{
-		$title[$key] = $value['title'];
-	}
-	natsort($title);
-	array_multisort($title, SORT_STRING, $arNote, SORT_ASC);
-	$currentTitle = $arNote[0]['title'];
-	$aKindleNote = array();
-	$aKindle = array();
-	$i =0;
-	$posBegin = strrpos($currentTitle,'(');
-	$posEnd = strrpos($currentTitle,')');
-	if ($posBegin == false)
-	{
-		$aKindle['title'] = $currentTitle;
-		$aKindle['author'] ='';
-	}
-	else
-	{
-		$aKindle['title'] = substr($currentTitle,0,$posBegin);
-		$aKindle['author'] = substr($currentTitle,$posBegin+1, $posEnd-$posBegin-1);	
-	}
-	
-	strtok($arNote[0]['date'], '|');
-	$aKindle['date'] = strtok('|');
-	$aKindle['note'] ='';
-	$aKindleNote[$i]= $aKindle;
-	foreach ($arNote as $key=> $value) 
-	{
-		if ($value['title'] != $currentTitle)
-		{
-			$i++;
-			$posBegin = strrpos($value['title'], '(');
-			$posEnd = strrpos($value['title'], ')');
-			strtok($value['date'], '|');
-			$aKindle['date'] = strtok('|');
-			if ($posBegin == false)
-			{
-				$aKindle['title'] = $value['title'];
-				$aKindle['author'] = '无作者';
+				array_push($tmpstring, trim($line));
 			}
 			else
 			{
-				$aKindle['title'] = substr($value['title'], 0, $posBegin);
-				$aKindle['author'] = substr($value['title'],$posBegin+1, $posEnd-$posBegin-1);	
+				array_push($artmpstring, $tmpstring);
+				unset($tmpstring);
+				$tmpstring = array();
 			}
-			
-			$aKindleNote[$i] = $aKindle;
-			//file_put_contents('note.json',','.json_encode($aKindle), FILE_APPEND);
-			$currentTitle = $value['title'];
-			
 		}
-		if (strrpos($value['date'], '-') != 0)
+		//提取单个笔记片段与所有笔记标题
+		$artitle = array();
+		$arnotepart = array();
+		foreach ($artmpstring as $key => $value) 
 		{
-			$aKindleNote[$i]['note'] .= (''.$value['note'].'<br/>');
-		}
-		else
-		{
-			$aKindleNote[$i]['note'] .= ('<b>'.$value['note'].'</b><br/>');
-		}	
-	}
-	$fjson = fopen('../note/output/'.$notetitle.'.json','x+');
-	fclose($fjson);
-	file_put_contents('../note/output/'.$notetitle.'.json','[');
-	$i =0;
-/*	foreach ($aKindleNote as $key => $value) 
-	{
-		$aKindleNote[$key] = iconv('UTF-8', 'GBK', $value);
-	}
-	asort($aKindleNote);*/
-	foreach ($aKindleNote as $key => $value) 
-	{
-		if (json_encode($value) != '')
-		{
-			file_put_contents('../note/output/'.$notetitle.'.json', json_encode($value), FILE_APPEND);
-			if ($key != count($aKindleNote)-1)
+			$tmpnotepart = array();
+			$tmpnotepart['title'] = $value[0];
+			$tmpnotepart['date'] = $value[1];
+			unset($value[0]);
+			unset($value[1]);
+			$tmpnotepart['note'] = implode($value);
+			if (strlen(trim($tmpnotepart['note'])) != 0)
 			{
-				file_put_contents('../note/output/'.$notetitle.'.json',','."\n", FILE_APPEND);	
+				array_push($arnotepart, $tmpnotepart);
+				array_push($artitle, $tmpnotepart['title']);
 			}
 		}
-		$i++;
-		
-			//
-	}
-	file_put_contents('../note/output/'.$notetitle.'.json',']', FILE_APPEND);
+		//合并笔记片段为完整笔记
+		natsort($artitle);
+		$arNotes = array();
+		$singleNote = array();
+		array_multisort($artitle, SORT_STRING, $arnotepart, SORT_ASC);
+		$currentTitle = '';
+		$i = -1;
+		foreach ($arnotepart as $key => $value) 
+		{
+			if (strlen(trim($value['note'])) != 0)
+			{
+				if ($currentTitle === $value['title'])
+				{
+					$arNotes[$i]['note'] .= ("<div class='test'>".$value['note'].'</div>');
+				}
+				else
+				{
+					$i++;
+					$singleNote['title'] = $value['title'];
+					$aKindle['author'] = 'ikindlenote.php';
+					$singleNote['date'] = $value['date'];
+					$singleNote['note'] = "<div class='test'>".$value['note'].'</div>';
+					$currentTitle = $value['title'];
+					$arNotes[$i] = $singleNote;
+					$singleNote = array();
+				}
+			}
+		}
+		$fjson = fopen('../note/output/'.$notetitle.'.json','x+');
+		fclose($fjson);
+		file_put_contents('../note/output/'.$notetitle.'.json',json_encode($arNotes));
 }
 
 function GetNoteCount()

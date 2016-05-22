@@ -94,7 +94,7 @@ div#text_notecount, div#note-list-count
 {
 	font-size: 120%;
 	font-weight: bold;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 }
 div#text_upload
 {	
@@ -104,20 +104,47 @@ div#note
 {
 	/*w:976 h:280*/
 	width: 100%;
-	height: 500px;
+	height: 510px;
 	margin-top: 20px;
 	/* border: solid 1px; */
 	border-color: red;
 }
-
+div#note-aphabet
+{
+	/*w:70 h:aut0*/
+	float: left;
+	text-align: center;
+	width: 40px;
+	/* border:solid 1px; */
+}
+div#note-aphabet>ul
+{
+	padding-left: 5px;
+	width: 30px;
+	list-style: none;
+	margin-top: 0px;
+}
+div#note-aphabet>ul>li>a
+{
+	color: #FF7335;	
+	font-weight: bold;
+	/* border:solid 1px; */
+}
+div#note-aphabet>ul>li>a.disabled
+{
+	color: #A4A4A4;
+}
+div#note-aphabet>ul>li>a:hover
+{
+	color: #FFF;
+}
 div#note-list
 {
 	/*w:400 h:auto*/
 	float: left;
 	width: 360px;
-	height: 500px;
+	height: 510px;
 	border: solid 5px;
-	border-color:#ECECEC;
 	border-color:#ECECEC;
 }
 
@@ -132,7 +159,7 @@ div#note-txt
 }
 div#note-list>ul
 {
-	height: 440px;
+	height: 450px;
 	overflow-y:scroll;
 	padding-left: 2px;
 	list-style: none;
@@ -157,24 +184,26 @@ div#note-list>ul>li
 	float: left;
 	width: 260px;
 	height: 48px;
-	border-bottom: solid 1px;
+	border-bottom: solid 2px;
+	border-color: #FEE;
 }
 .note-list-title>a
 {
 	color: #4486F7;
 }
 
-.note-list-title>a:hover
+.note-list-title>a:hover,.note-list-title>a:focus
 {
 	color: #FF7335;
 }
+
 
 .note-list-author
 {
 	float: left;
 	width: 260px;
 	height: 24px;
-	font-size: 80%;
+	font-size: 90%;
 	/* border: solid 1px; */
 }
 div#note-txt-title
@@ -187,7 +216,11 @@ div#note-txt-title
 	font-style: bold;
 	text-align: center;
 	/* border: solid 1px; */
-
+}
+div#note-txt-title>a
+{
+	color:black;
+	text-decoration:none;
 }
 
 div#guide-info img
@@ -225,18 +258,32 @@ div#note-txt-date
 {
 	width: 100%;
 	height: 30px;
-	color: #00C0E4;
+	color: #4486F7;
 	text-align: center;
 	/* border: solid 1px; */
 }
 
 div#note-txt-note
 {
-	width: 100%;
+	width: 760px;
 	height: 390px;
+	margin-left: auto;
+	margin-right: auto;
 	overflow-y:scroll;
-	line-height: 30px;
+	line-height: 60px;
+	padding-left: 20px;
+	padding-right: 20px;
 	/* border: solid 1px; */
+	border-color: orange;
+}
+
+div.test
+{
+	width: 100%;
+	margin:0px;
+	background-color: #F9F9F9;
+	margin-top: 10px;
+	border: solid 1px;
 	border-color: orange;
 }
 
