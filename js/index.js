@@ -1,4 +1,3 @@
-var jsonnote;
 var noteid;
 
 function GetNoteList(title)
@@ -11,7 +10,9 @@ function GetNoteList(title)
     	ok: function () {}
 	});
 	d.show();
-	$.ajax({
+
+	$.ajax(
+	{
 		url: 'php/ikindlenote.php',
 		type: 'POST',
 		dataType: 'JSON',
@@ -21,29 +22,26 @@ function GetNoteList(title)
 	{
 		d.close().remove();
 		json.sort(asc_sort);
+		$('#note-list-search').show();
 		$('#apahabetlist').empty();
 		$('#notelist').empty();
 		$('#guide-info').html($('#guide-info-offline').html());
 		$('#note-txt-title').html('离线使用KindleNote');
-		//$('#note-txt-date').html('');
 		
 		var arapahabet= new Array();
 		$.each(json, function(index, el) 
 		{
 			var apahabet = (makePy(el['title'].substr(0,1))+'').substr(0,1);
-			var stitle = '<li id="hidenote-title'+index;
-			
+			var stitle = '<li id="hidenote-title'+index;			
 			var sdate = '<li id="hidenote-date'+index;
 			var sauthor = '<li id="hidenote-author'+index;
 			var snote = '<li id="hidenote-note'+index;
 			var title = el['title'];
 			var author = '无作者';
 			var iposStart = el['title'].lastIndexOf('(');
-			console.log('start'+iposStart);
 			if (iposStart != -1)
 			{
 				var iposEnd = el['title'].lastIndexOf(')');
-				console.log('end'+iposEnd);
 				if (iposEnd != -1)
 				{
 					author = el['title'].substr(iposStart+1, iposEnd-iposStart-1);
@@ -61,20 +59,13 @@ function GetNoteList(title)
 			$('#hidenote-date').append(sdate+'">'+el['date']+'</li>');
 			$('#hidenote-author').append(sauthor+'">'+el['author']+'</li>');
 			$('#hidenote-note').append(snote+'">'+el['note']+'</li>');
-			//$('#notelist').append('<li><div class="note-list-img"></div><div class="note-list-title"><a href="#" '+s0 +'><b>'
-			$('#notelist').append('<li><div class="note-list-title"><a href="#" '+s0 +'value="'+apahabet+'" id="note-list-title'+apahabet+'"><b>'
+			$('#notelist').append('<li id="note-list-title'+index+'"'+'><div class="note-list-title"><a href="#" '+s0 +'value="'+apahabet+'" id="note-list-title'+apahabet+'"><b>'
 				+title
 				+"</b></a></div><div class='note-list-author'>"
 				+author.substr(0,56)
 				+"</div></li>");
-				//+"</li>");
 		});
 		
-		/*$.each($.unique(arapahabet),function(index, el) 
-		{
-			$('#apahabetlist').append('<li><a href="#" title="'+el+'">'+el+'</a></li>');
-		
-		});*/
 		for (var i = 0 ; i < 26; i++) 
 		{
 			if($.inArray(String.fromCharCode(65+i), arapahabet) != -1)
@@ -129,6 +120,12 @@ function asc_sort(a, b)
 	var b1 = makePy(a.title.substr(0,1));
     return a1 < b1 ? 1 : -1;
 }
+
+/**
+ * [显示对话框]
+ * @param {[string]} title   [窗口标题]
+ * @param {[string]} content [窗口内容]
+ */
 function ShowDialog(title, content)
 {
 	var d = dialog(
@@ -142,6 +139,10 @@ function ShowDialog(title, content)
 	return d;
 }
 
+/**
+ * [是否为文件模式]
+ * @return {[bool]}  [true:是; false:否]
+ */
 function IsFileMode()
 {
 	if (location.href.substr(0,4) == 'file')
@@ -151,9 +152,13 @@ function IsFileMode()
 	return false;
 }
 
+/**
+ * [获取已处理笔记个数]
+ */
 function GetNoteCount() 
 {
-	$.ajax({
+	$.ajax(
+	{
 		url: 'php/ikindlenote.php',
 		type: 'POST',
 		dataType: 'JSON',
@@ -172,18 +177,18 @@ function GetNoteCount()
 	{
 		console.log("error");
 	})
-	
 }
 
+/**
+ * [获取指定下标的笔记]
+ * @param {[int]} index [笔记下标]
+ */
 function GetNoteTxt(index)
 {
 	var sTitle = '#hidenote-title'+index;
 	var sDate = '#hidenote-date'+index;
 	var sAuthor = '#hidenote-author'+index;
 	var sNote = '#hidenote-note'+index;
-	//var title = $(sTitle).children('a').attr('title');
-	//console.log(title);
-	//.substr(0,27);
 	var date = $(sDate).text();
 	var author = $(sAuthor).text();
 	var note = $(sNote).html();
@@ -191,18 +196,15 @@ function GetNoteTxt(index)
 	$('#note-txt-note').html(note);
 }
 
-function SortList()
-{
-	$('#notelist').listnav(
-	{
-        includeOther: true,
-        includeNums: true, 
-        noMatchText: ''
-    });
-}
+/**
+ * [报告错误]
+ * @param {[string]} noteid [笔记ID]
+ * @param {[string]} qq     [QQ号码]
+ */
 function ReportError(noteid, qq) 
 {
-	$.ajax({
+	$.ajax(
+	{
 		url: 'php/ikindlenote.php',
 		type: 'POST',
 		dataType: 'JSON',
@@ -219,10 +221,6 @@ function ReportError(noteid, qq)
 	.fail(function() {
 		console.log("error");
 	})
-	.always(function() {
-		console.log("complete");
-	});
-	
 }
 
 $(document).ready(function() 
@@ -231,7 +229,10 @@ $(document).ready(function()
 	{
 		GetNoteCount();
 	}
-	$('#notelist').on('click', 'a', function(event) {
+
+	//单击笔记列表项，获取笔记内容
+	$('#notelist').on('click', 'a', function(event) 
+	{
 		var s ='#hidenote-title'+$(this).attr('value');
 		var title = $(s).text();
 		$(document).attr('title', $(this).text());
@@ -240,6 +241,8 @@ $(document).ready(function()
 		return false;
 		
 	});	
+
+	//单击拼音列表，搜索符合要求答笔记
 	$('#note-aphabet').on('click', 'a', function(event) 
 	{
 		var s ='note-list-title'+$(this).text();
@@ -249,6 +252,28 @@ $(document).ready(function()
 		return true;
 	});
 	
+	//单击搜索按钮，搜索包含关键字的笔记
+	$('#note-list-search-button').click(function(event) 
+	{
+		var notetitle = $('#note-list-search-notetitle').val();
+		if ($.trim(notetitle) != '')
+		{
+			for (var i = 0; i< $('#notelist li').length; i++) 
+			{
+				var title = $('#note-list-title'+i+'').text();
+				if (title.indexOf(notetitle) != -1)
+				{
+					console.log('ddd'+title);
+					location.href ='#note-list-title'+i+'';
+					$('html, body').animate({scrollTop:0}, 'fast');
+					break;
+
+				}
+			}
+			
+		}
+	});
+
 
 	$('#button_upload').click(function(event) 
 	{
@@ -256,6 +281,7 @@ $(document).ready(function()
 	});
 
 
+	//上传笔记内容
 	$('#form_uploadfile').submit(function(event) 
 	{
 		var afile = document.getElementById('fileupload');
@@ -281,12 +307,12 @@ $(document).ready(function()
 				d.close().remove();
 				$('#text_notecount_count').text(str.substr(2));
 				GetNoteList(str.substr(2));
-				SortList();
 			}
 		}
    		return false; //阻止表单默认提交
 	});
 
+	//待上传的笔记文件已经选择
 	$('#fileupload').change(function()
 	{
 		var afile = document.getElementById('fileupload');

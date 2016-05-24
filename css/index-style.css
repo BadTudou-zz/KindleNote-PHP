@@ -15,13 +15,15 @@ div#view
 {
 	/*w:1022 h:1700*/
 	width: 90%;
-	height: 100%;
+	height: 900px;
+	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 1%;/*15px;*/
 	padding-right: 1%;
-	/* border: solid 1px; */
-	border-color: yellow;
+
+	border: solid 1px;
+	border-color: #E5E4DB;
 }
 
 div#head
@@ -96,6 +98,20 @@ div#text_notecount, div#note-list-count
 	font-weight: bold;
 	margin-bottom: 5px;
 }
+div#note-list-search
+{
+	margin-left: 40px;
+}
+div#note-list-search>form
+{
+	display: inline;
+	margin-right: 5px;
+}
+div#note-list-search>a
+{
+	color: #4486F7;
+	font-weight: bold;
+}
 div#text_upload
 {	
 	color: black;
@@ -103,9 +119,11 @@ div#text_upload
 div#note
 {
 	/*w:976 h:280*/
+	float: left;
 	width: 100%;
-	height: 510px;
+	height: 540px;
 	margin-top: 20px;
+	margin-bottom: 20px;
 	/* border: solid 1px; */
 	border-color: red;
 }
@@ -143,7 +161,7 @@ div#note-list
 	/*w:400 h:auto*/
 	float: left;
 	width: 360px;
-	height: 510px;
+	height: 530px;
 	border: solid 5px;
 	border-color:#ECECEC;
 }
@@ -152,7 +170,7 @@ div#note-txt
 {
 	float: left;
 	width: 800px;
-	height: 500px;
+	height: 540px;
 	margin-left: 1%;
 	border: solid 1px;
 	border-color: #ECECEC;	
@@ -169,9 +187,8 @@ div#note-list>ul>li
 {
 	width: 100%;
 	height: 90px;
-
-
 }
+
 .note-list-img
 {
 	float: left;
