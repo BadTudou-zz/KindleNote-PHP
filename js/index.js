@@ -21,23 +21,28 @@ function GetNoteList(title)
 	.done(function(json) 
 	{
 		d.close().remove();
-		json.sort(asc_sort);
+		//json.sort(asc_sort);
 		$('#note-list-search').show();
 		$('#apahabetlist').empty();
 		$('#notelist').empty();
+		$('#hidenote-title').empty();
+		$('#hidenote-date').empty();
+		$('#hidenote-note').empty();
 		$('#guide-info').html($('#guide-info-offline').html());
 		$('#note-txt-title').html('离线使用KindleNote');
 		
 		var arapahabet= new Array();
+		var i = 0;
 		$.each(json, function(index, el) 
 		{
+			index = i;
 			var apahabet = (makePy(el['title'].substr(0,1))+'').substr(0,1);
 			var stitle = '<li id="hidenote-title'+index;			
 			var sdate = '<li id="hidenote-date'+index;
 			var sauthor = '<li id="hidenote-author'+index;
 			var snote = '<li id="hidenote-note'+index;
 			var title = el['title'];
-			var author = '无作者';
+			var author = '暂无作者';
 			var iposStart = el['title'].lastIndexOf('(');
 			if (iposStart != -1)
 			{
@@ -48,9 +53,9 @@ function GetNoteList(title)
 					title = title.substr(0, iposStart);
 				}
 			}
-			if (title.length > 33)
+			if (title.length > 15)
 			{
-				title = title.substr(0, 31);
+				title = title.substr(0, 15);
 				title += '...';
 			}
 			arapahabet.push(apahabet+'');
@@ -64,6 +69,7 @@ function GetNoteList(title)
 				+"</b></a></div><div class='note-list-author'>"
 				+author.substr(0,56)
 				+"</div></li>");
+			i++;
 		});
 		
 		for (var i = 0 ; i < 26; i++) 
@@ -236,7 +242,7 @@ $(document).ready(function()
 		var s ='#hidenote-title'+$(this).attr('value');
 		var title = $(s).text();
 		$(document).attr('title', $(this).text());
-		$('#note-txt-title').html('<a href="#" title="'+title+'">'+title.substr(0,26)+'</a>');
+		$('#note-txt-title').html('<a href="#" title="'+title+'">'+title.substr(0,25)+'</a>');
 		GetNoteTxt($(this).attr('value'));
 		return false;
 		

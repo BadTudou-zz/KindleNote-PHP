@@ -28,7 +28,6 @@
 			else
 			{
 				array_push($artmpstring, $tmpstring);
-				unset($tmpstring);
 				$tmpstring = array();
 			}
 		}
@@ -48,36 +47,46 @@
 				array_push($arnotepart, $tmpnotepart);
 				array_push($artitle, $tmpnotepart['title']);
 			}
+			else
+			{
+				/*echo $tmpnotepart['title'].'has no note<br/>';*/
+			}
 		}
-		//合并笔记片段为完整笔记
-		natsort($artitle);
-		$arNotes = array();
-		$singleNote = array();
+		
+		//提取无重复的笔记标题
+		asort($artitle, SORT_STRING);
 		array_multisort($artitle, SORT_STRING, $arnotepart, SORT_ASC);
+
+		//合并笔记片段为完整笔记
+		$arNotes = array();
 		$currentTitle = '';
-		$i = -1;
+		$artmp = array();
+		$artmp['title'] = '';
+		$artmp['date'] = '';
+		$artmp['note'] = '';
+		foreach (array_unique($artitle) as $key => $value) 
+		{
+			$arNotes[$value] = $artmp;
+		}
 		foreach ($arnotepart as $key => $value) 
 		{
 			if (strlen(trim($value['note'])) != 0)
 			{
 				if ($currentTitle === $value['title'])
 				{
-					$arNotes[$i]['note'] .= ("<div class='test'>".$value['note'].'</div>');
+					$arNotes[$value['title']]['note'] .= ("<div class='test'>".$value['note'].'</div>');
 				}
 				else
 				{
-					$i++;
-					$singleNote['title'] = $value['title'];
-					$aKindle['author'] = 'ikindlenote.php';
-					$singleNote['date'] = $value['date'];
-					$singleNote['note'] = "<div class='test'>".$value['note'].'</div>';
 					$currentTitle = $value['title'];
-					$arNotes[$i] = $singleNote;
-					$singleNote = array();
+					$arNotes[$value['title']]['title'] = $value['title'];
+					$arNotes[$value['title']]['date'] = $value['date'];
+					$arNotes[$value['title']]['note'] .= "<div class='test'>".$value['note'].'</div>';
 				}
 			}
 		}
 		$fjson = fopen('../note/output/'.$notetitle.'.json','x+');
+		
 		fclose($fjson);
 		file_put_contents('../note/output/'.$notetitle.'.json',json_encode($arNotes));
 }
@@ -122,4 +131,5 @@ if (isset($_POST['action']))
 			break;
 	}
 }
+
 ?>
