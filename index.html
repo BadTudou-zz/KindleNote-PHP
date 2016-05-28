@@ -15,12 +15,14 @@
 	<div id='view'>
 		<div id='head'>
 			<div id='head-logo'>
-				<a href="http://www.BadTudou.com"><img src="images/logo.png"/>www.BadTudou.com</a>
+				<a href="http://119.29.227.85/"><img src="images/logo.png"/>www.BadTudou.com</a>
 			</div>
 			<div id="upload_area">
 				<div id='text_notecount'>处理笔记：<span id='text_notecount_count'></span></div>
 				<div id='text_upload'>未上传笔记文件</div>
-				<a id='button_upload' href="#">上传笔记</a>
+				<a id='button_upload' href="#" title="上传笔记">上传笔记</a>
+				<!-- <a id='button_saveas' href="#" title="保存笔记到本地">保存笔记</a> -->
+				<a id='button_markdown' href="#" title="下载MarkDown笔记" target="_black" hidden>MarkDown</a>
 				<form id="form_uploadfile" action="../php/upload.php" method="POST" enctype="multipart/form-data">
 					<input id="fileupload" type="file" name="files" hidden/>
 					<input id='button_submit' type="submit" value="开始上传" hidden/>
