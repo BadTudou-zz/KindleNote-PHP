@@ -85,6 +85,18 @@ div#upload_area>a
 	background-color: #4486F7;
 	text-align: center;
 }
+div#upload_area>a:hover
+{
+	color: #000;
+}
+div#upload_area>a#button_markdown
+{
+	background-color: #FF7335;
+}
+div#upload_area>a#button_saveas
+{
+	background-color: #CC3333;
+}
 div#text_notecount,div#text_upload, div#note-list-count
 {
 	width: 200px;

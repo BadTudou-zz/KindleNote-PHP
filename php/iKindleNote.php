@@ -86,9 +86,19 @@
 			}
 		}
 		$fjson = fopen('../note/output/'.$notetitle.'.json','x+');
-		
 		fclose($fjson);
 		file_put_contents('../note/output/'.$notetitle.'.json',json_encode($arNotes));
+		$fmakedown = fopen('../note/markdown/'.$notetitle.'.markdown','x+');
+		fclose($fmakedown);
+		foreach ($arNotes as $key => $value) 
+		{
+			$title = '# '.$value['title']. " #\n";
+			$date = '###' .$value['date']. " ###\n";
+			$note = str_replace("<div class='test'>", '+ ',$value['note']);
+			$note = str_replace('</div>', " \n",$note);
+			file_put_contents('../note/markdown/'.$notetitle.'.markdown', "\n***\n".$title.$date.$note, FILE_APPEND );
+		}
+
 }
 
 function GetNoteCount()
@@ -104,6 +114,8 @@ function ReportError(string $noteid, string $qq)
 	$er['qq'] = $qq;
 	file_put_contents('../note/error_log.json',json_encode($er).",\n", FILE_APPEND);
 }
+
+
 
 if (isset($_POST['action']))	
 {

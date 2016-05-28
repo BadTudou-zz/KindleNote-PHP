@@ -30,7 +30,8 @@ function GetNoteList(title)
 		$('#hidenote-note').empty();
 		$('#guide-info').html($('#guide-info-offline').html());
 		$('#note-txt-title').html('离线使用KindleNote');
-		
+		$('#button_markdown').show();
+		$('#button_markdown').attr('href', 'php/download.php?fileID='+$('#text_notecount_count').text());
 		var arapahabet= new Array();
 		var i = 0;
 		$.each(json, function(index, el) 
@@ -231,6 +232,7 @@ function ReportError(noteid, qq)
 
 $(document).ready(function() 
 {
+	$('#button_markdown').hide();
 	if (!IsFileMode())
 	{
 		GetNoteCount();
@@ -334,4 +336,39 @@ $(document).ready(function()
 			ShowDialog('错误','Kindle的笔记是txt格式的文本文件');
 		}
 	});
+
+	//单击保存笔记
+	$('#button_saveas').click(function(event) 
+	{
+		var htmlnote ='';
+		for (var i = 0; i< $('#notelist li').length; i++) 
+		{
+			var title = $('#hidenote-title'+i+'').text();
+			var date = $('#hidenote-date'+i+'').text();
+			var author = $('#hidenote-author'+i+'').text();
+			var note = $('#hidenote-note'+i+'').text();
+			htmlnote = htmlnote + title + date + author + note;
+		}
+		export_raw('kindlenote.mk', htmlnote);
+
+	});
 });
+function fake_click(obj) {
+    var ev = document.createEvent("MouseEvents");
+    ev.initMouseEvent(
+        "click", true, false, window, 0, 0, 0, 0, 0
+        , false, false, false, false, 0, null
+        );
+    obj.dispatchEvent(ev);
+}
+
+function export_raw(name, data) {
+    var urlObject = window.URL || window.webkitURL || window;
+
+    var export_blob = new Blob([data]);
+
+    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+    save_link.href = urlObject.createObjectURL(export_blob);
+    save_link.download = name;
+    fake_click(save_link);
+}
