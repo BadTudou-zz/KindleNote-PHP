@@ -44,15 +44,20 @@ MarkDown笔记列表
 ![MarkDown笔记列表][img-kindlenote-markdownlist]
 
 MarkDown笔记内容
-    
+
 ![MarkDown笔记内容][img-kindlenote-markdownnote]
 
 ## 离线模式 ##
 ![单击鼠标右键][img-guide-mouse]
+
 1. **单击**鼠标右键
+    
 ![选择'另存为'][img-guide-saveas]
+
 2. 选择 **'另存为'**
+    
 ![保存为'网页，全部'][img-guide-allweb]
+    
 3. 保存为 **'网页、全部'**
 
 ## 最新版本截图 ##
