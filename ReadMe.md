@@ -1,3 +1,4 @@
+[TOC]
 # [KindleNote][kindlenote]
 ![KindleNote主页截图][img-kindlenote]
 ## 简介 ##
