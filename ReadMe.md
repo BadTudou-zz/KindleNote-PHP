@@ -20,14 +20,33 @@
 2. 连接Kindle至电脑，进入USB模式
 3. 进入Kindle的磁盘，上传 Kindle盘符:\documents\My Clippings.txt文件
 4. 等待程序对笔记文件进行处理，完成
-    
+
+## 截图 ##
+原文件
+![笔记原文件][img-kindlenote-notefile]
+
+HTML笔记列表
+![笔记列表][img-kindlenote-notelist]
+
+HTML笔记内容
+![笔记内容][img-kindlenote-notetext]
+
+MarkDown文件
+![MarkDown文件][img-kindlenote-markdown]
+
+MarkDown笔记列表
+![MarkDown笔记列表][img-kindlenote-markdownlist]
+
+MarkDown笔记内容
+![MarkDown笔记内容][img-kindlenote-markdownnote]
+
 ## 离线模式 ##
-1. **单击**鼠标右键
 ![单击鼠标右键][img-guide-mouse]
-2. 选择 **'另存为'**
+1. **单击**鼠标右键
 ![选择'另存为'][img-guide-saveas]
-3. 保存为 **'网页、全部'**
+2. 选择 **'另存为'**
 ![保存为'网页，全部'][img-guide-allweb]
+3. 保存为 **'网页、全部'**
 
 ## 最新版本截图 ##
 ![最新版本截图][img-kindlenote-latest]
@@ -35,7 +54,7 @@
 ## 帮助 ##
 免费开源KindleNote。
 
-QQ群号 : ** [565752585][kindlenote-QQgroup] **
+QQ群号 : **[565752585][kindlenote-QQgroup]**
 
 Email:  badtudou@qq.com
 
@@ -50,6 +69,16 @@ GitHub: [KindleNote][kindlenote-GitHub]
 [img-kindlenote]:https://raw.githubusercontent.com/BadTudou/KindleNote/0fea7f551aff910bb50a8ded431e13d9c5c30823/demo/homepage.png "KindleNote主页"
 
 [img-kindlenote-latest]:https://raw.githubusercontent.com/BadTudou/KindleNote/aa730f05656cf8b47d12ca09c223fa00839f5358/demo/homepage-latest.png "最新版本截图"
+
+[img-kindlenote-notelist]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/notelist.png "笔记列表"
+
+[img-kindlenote-notetext]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/notetext.png "笔记内容"
+
+[img-kindlenote-markdown]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/MarkDown.png "MarkDown文件"
+[img-kindlenote-markdownlist]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/MarkDown-list.png "MarkDown笔记列表"
+
+[img-kindlenote-markdownnote]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/MarkDown-note.png "MarkDown笔记内容"
+[img-kindlenote-notefile]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/demo/notefile.png "笔记文件"
 
 [img-guide-mouse]:https://raw.githubusercontent.com/BadTudou/KindleNote/master/images/guide/mouse.png "单击鼠标右键"
 
