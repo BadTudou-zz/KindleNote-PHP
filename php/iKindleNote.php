@@ -90,11 +90,12 @@
 		file_put_contents('../note/output/'.$notetitle.'.json',json_encode($arNotes));
 		$fmakedown = fopen('../note/markdown/'.$notetitle.'.markdown','x+');
 		fclose($fmakedown);
+		file_put_contents('../note/markdown/'.$notetitle.'.markdown', "\n[TOC]\n", FILE_APPEND );
 		foreach ($arNotes as $key => $value) 
 		{
 			$title = '# '.$value['title']. " #\n";
-			$date = '###' .$value['date']. " ###\n";
-			$note = str_replace("<div class='test'>", '+ ',$value['note']);
+			$date = '**' .$value['date']. " **\n";
+			$note = str_replace("<div class='test'>", "\n+ ",$value['note']);
 			$note = str_replace('</div>', " \n",$note);
 			file_put_contents('../note/markdown/'.$notetitle.'.markdown', "\n***\n".$title.$date.$note, FILE_APPEND );
 		}
