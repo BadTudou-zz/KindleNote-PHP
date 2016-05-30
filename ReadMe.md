@@ -24,21 +24,27 @@
 
 ## 截图 ##
 原文件
+
 ![笔记原文件][img-kindlenote-notefile]
 
 HTML笔记列表
+
 ![笔记列表][img-kindlenote-notelist]
 
 HTML笔记内容
+
 ![笔记内容][img-kindlenote-notetext]
 
 MarkDown文件
+
 ![MarkDown文件][img-kindlenote-markdown]
 
 MarkDown笔记列表
+
 ![MarkDown笔记列表][img-kindlenote-markdownlist]
 
 MarkDown笔记内容
+    
 ![MarkDown笔记内容][img-kindlenote-markdownnote]
 
 ## 离线模式 ##
