@@ -38,9 +38,14 @@
 		{
 			$tmpnotepart = array();
 			$tmpnotepart['title'] = $value[0];
-			$tmpnotepart['date'] = $value[1];
+			if (isset($value[1]))
+			{
+				$tmpnotepart['date'] = $value[1];	
+				unset($value[1]);
+			}
+			
 			unset($value[0]);
-			unset($value[1]);
+			
 			$tmpnotepart['note'] = implode($value);
 			if (strlen(trim($tmpnotepart['note'])) != 0)
 			{
