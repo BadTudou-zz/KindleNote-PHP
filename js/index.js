@@ -1,4 +1,5 @@
 var noteid;
+var currentNoteID = 'note-list-title0';
 
 function GetNoteList(title)
 {
@@ -23,15 +24,7 @@ function GetNoteList(title)
 		d.close().remove();
 		//json.sort(asc_sort);
 		$('#note-list-search').show();
-		$('#apahabetlist').empty();
-		$('#notelist').empty();
-		$('#hidenote-title').empty();
-		$('#hidenote-date').empty();
-		$('#hidenote-note').empty();
-		$('#guide-info').html($('#guide-info-offline').html());
-		$('#note-txt-title').html('离线使用KindleNote');
-		$('#button_markdown').show();
-		$('#button_markdown').attr('href', 'php/download.php?fileID='+$('#text_notecount_count').text());
+		cleanData();
 		var arapahabet= new Array();
 		var i = 0;
 		$.each(json, function(index, el) 
@@ -65,9 +58,9 @@ function GetNoteList(title)
 			$('#hidenote-date').append(sdate+'">'+el['date']+'</li>');
 			$('#hidenote-author').append(sauthor+'">'+el['author']+'</li>');
 			$('#hidenote-note').append(snote+'">'+el['note']+'</li>');
-			$('#notelist').append('<li id="note-list-title'+index+'"'+'><div class="note-list-title"><a href="#" '+s0 +'value="'+apahabet+'" id="note-list-title'+apahabet+'"><b>'
+			$('#notelist').append('<li id="lnote-list-title'+index+'"'+'><div class="note-list-title"><a href="#" '+s0 +'value="'+apahabet+'"id="note-list-title'+index+'"><b><span id="snote-list-title'+index+'">'
 				+title
-				+"</b></a></div><div class='note-list-author'>"
+				+"</span></b></a></div><div class='note-list-author'>"
 				+author.substr(0,56)
 				+"</div></li>");
 			i++;
@@ -112,13 +105,21 @@ function GetNoteList(title)
     		}
     	});
 		j.show();
-	})
-	.always(function() 
-	{
-		//$('#note-txt-note').html('正在加载');
-		//console.log("complete");
 	});
 	
+}
+
+function cleanData()
+{
+	$('#apahabetlist').empty();
+	$('#notelist').empty();
+	$('#hidenote-title').empty();
+	$('#hidenote-date').empty();
+	$('#hidenote-note').empty();
+	$('#guide-info').html($('#guide-info-offline').html());
+	$('#note-txt-title').html('离线使用KindleNote');
+	$('#button_markdown').show();
+	$('#button_markdown').attr('href', 'php/download.php?fileID='+$('#text_notecount_count').text());
 }
 
 function asc_sort(a, b) 
@@ -242,6 +243,7 @@ $(document).ready(function()
 	$('#notelist').on('click', 'a', function(event) 
 	{
 		var s ='#hidenote-title'+$(this).attr('value');
+		currentNoteID = s;
 		var title = $(s).text();
 		$(document).attr('title', $(this).text());
 		$('#note-txt-title').html('<a href="#" title="'+title+'">'+title.substr(0,25)+'</a>');
@@ -271,7 +273,6 @@ $(document).ready(function()
 				var title = $('#note-list-title'+i+'').text();
 				if (title.indexOf(notetitle) != -1)
 				{
-					console.log('ddd'+title);
 					location.href ='#note-list-title'+i+'';
 					$('html, body').animate({scrollTop:0}, 'fast');
 					break;
@@ -352,23 +353,33 @@ $(document).ready(function()
 		export_raw('kindlenote.mk', htmlnote);
 
 	});
+
+	//热键
+	$(document).keydown(function (event) 
+	{
+		switch(String.fromCharCode(event.keyCode))
+		{
+			case 'S':
+				var tmpId = currentNoteID.substr(15)-'0'+1;
+				var tmpItem = '#snote-list-title'+tmpId+'';
+				var container = $('#notelist');
+				var scrollTo = $(tmpItem);
+				container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+
+				//$('#notelist').scrollTop($('#snote-list-title'+tmpId+'').offset().top);
+				$(tmpItem).click();
+				
+				break;
+
+			case 'W':
+				var tmpId = currentNoteID.substr(15)-'0'-1;
+				var tmpItem = '#snote-list-title'+tmpId+'';
+				var container = $('#notelist');
+				var scrollTo = $(tmpItem);
+				container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+				$(tmpItem).click();
+				break;
+		}
+	});
 });
-function fake_click(obj) {
-    var ev = document.createEvent("MouseEvents");
-    ev.initMouseEvent(
-        "click", true, false, window, 0, 0, 0, 0, 0
-        , false, false, false, false, 0, null
-        );
-    obj.dispatchEvent(ev);
-}
 
-function export_raw(name, data) {
-    var urlObject = window.URL || window.webkitURL || window;
-
-    var export_blob = new Blob([data]);
-
-    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
-    save_link.href = urlObject.createObjectURL(export_blob);
-    save_link.download = name;
-    fake_click(save_link);
-}
