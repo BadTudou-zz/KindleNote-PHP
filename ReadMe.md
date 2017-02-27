@@ -3,7 +3,7 @@
 ![KindleNote主页截图][img-kindlenote]
 ## 简介 ##
 
-[KindleNote][kindlenote] 可以使你 [KindleNote][kindlenote] 阅读器中的笔记变得更易阅读。
+[KindleNote][kindlenote]是一款基于PHP环境的Kindle笔记导出工具。[KindleNote][kindlenote] 可以使你 [KindleNote][kindlenote] 阅读器中的笔记变得更易阅读。
 
 我们通过对 [KindleNote][kindlenote]的笔记文件进行整理、分析，使得笔记片段合并为完整笔记。
     
@@ -17,6 +17,20 @@
 + MarkDown导出
 
 ## 使用方法 ##
+您可以直接使用他人搭建的KindleNote，或者选择自行搭建。
+### 在服务器中安装KindleNote ###
+安装PHP环境（5.6以上），部署KindleNote项目文件
+### 在浏览器中访问远程地址 ###
+若在本地启用PHP服务器
+`
+	php -S localhost:8080
+`
+则访问
+`
+	localhost:8080
+`
+非本地启用PHP，则访问部署的服务器地址
+### 笔记解析 ###
 1. 打开[KindleNote][kindlenote]
 2. 连接Kindle至电脑，进入USB模式
 3. 进入Kindle的磁盘，上传 Kindle盘符:\documents\My Clippings.txt文件
@@ -72,7 +86,7 @@ Email:  badtudou@qq.com
 
 GitHub: [KindleNote][kindlenote-GitHub]
 
-[kindlenote]: http://119.29.227.85/kindlenote/ "你的Kindle笔记，我懂"
+[kindlenote]: http://www.badtudou.com/ "你的Kindle笔记，我懂"
 
 [kindlenote-QQgroup]: http://jq.qq.com/?_wv=1027&k=27JudDz "点击链接加入群【KindleNote】"
 

@@ -8,7 +8,7 @@
 	Date	:	2016年5月03日16:56:05
 	Note	:	函数库
 */
-	function SendRespond(int $stateCode, string $msgText)
+	function SendRespond($stateCode, $msgText)
 	{
 		echo json_encode(array('stateCode' =>$stateCode, 'msgText' =>$msgText));
 	}

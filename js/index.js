@@ -83,7 +83,7 @@ function GetNoteList(title)
 	.fail(function(json) 
 	{
 		d.close().remove();
-		console.log("error"+json);
+		console.log("error"+JSON.stringify(json));
 		var j = dialog(
 		{
     		title: '笔记解析失败',
@@ -183,7 +183,7 @@ function GetNoteCount()
 	})
 	.fail(function(json) 
 	{
-		console.log("error");
+		console.log("error"+JSON.stringify(json));
 	})
 }
 
