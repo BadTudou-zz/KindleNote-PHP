@@ -1,8 +1,8 @@
-[TOC]
 # [KindleNote][kindlenote]
 ![KindleNote主页截图][img-kindlenote]
 ## 简介 ##
 
+**姊妹项目 [kindlenote-laravel][kindlenote-laravel]已经发布，基于Laravel框架，核心代码经过重构，笔记可保存至云端。**
 [KindleNote][kindlenote]是一款基于PHP环境的Kindle笔记导出工具。[KindleNote][kindlenote] 可以使你 [KindleNote][kindlenote] 阅读器中的笔记变得更易阅读。
 
 我们通过对 [KindleNote][kindlenote]的笔记文件进行整理、分析，使得笔记片段合并为完整笔记。
@@ -85,6 +85,8 @@ QQ群号 : **[565752585][kindlenote-QQgroup]**
 Email:  badtudou@qq.com
 
 GitHub: [KindleNote][kindlenote-GitHub]
+
+[kindlenote-laravel]: https://github.com/BadTudou/KindleNote-Lavarel "Kindle-Laravel"
 
 [kindlenote]: http://www.badtudou.com/ "你的Kindle笔记，我懂"
 

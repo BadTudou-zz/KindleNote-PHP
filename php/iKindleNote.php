@@ -11,7 +11,7 @@
 	define('SPITMARK', "==========");
 	header("Content-type: text/html; charset=utf-8");
 	require_once('LIB.php');
-	function CreateNote(string $notetitle)
+	function CreateNote($notetitle)
 	{
 		//打开笔记文件
 		$fnote = fopen('../note/input/'.$notetitle.'.txt', 'r+');
