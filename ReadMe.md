@@ -2,7 +2,10 @@
 ![KindleNote主页截图][img-kindlenote]
 ## 简介 ##
 
-**姊妹项目 [kindlenote-laravel][kindlenote-laravel]已经发布，基于Laravel框架，核心代码经过重构，笔记可保存至云端。**
+【**姊妹项目 [kindlenote-laravel][kindlenote-laravel]已经发布，基于Laravel框架，核心代码经过重构，笔记可保存至云端。**】
+
+【**此项目代码质量较差，此项目不再提供维护。建议迁移至其姊妹项目 [kindlenote-laravel][kindlenote-laravel]**】
+
 [KindleNote][kindlenote]是一款基于PHP环境的Kindle笔记导出工具。[KindleNote][kindlenote] 可以使你 [KindleNote][kindlenote] 阅读器中的笔记变得更易阅读。
 
 我们通过对 [KindleNote][kindlenote]的笔记文件进行整理、分析，使得笔记片段合并为完整笔记。
